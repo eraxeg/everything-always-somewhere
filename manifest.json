@@ -1,18 +1,19 @@
 {
-    "name": "RR Timer Barebones",
-    "version": "0.1",
+    "name": "everything always somewhere",
+    "version": "0.2",
     "manifest_version": 2,
     "background": {
         "scripts": ["background.js"],
         "persistent": false
     },
-    "icons":{"48": "rose48.png"},
+    "icons": {
+      "48": "icons/rose48.png"
+    },
     "browser_action": {
-        "default_icon": "rose-off.png"
+        "default_icon": "icons/rose-off.png"
     },
     "permissions": [
         "activeTab",
-        "<all_urls>",
         "http://*/*",
         "storage",
         "contextMenus"
