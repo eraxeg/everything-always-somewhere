@@ -13,7 +13,7 @@ function saveOptions() {
 
 function restoreOptions() {
   chrome.storage.sync.get({
-    countdown: 6,
+    countdown: 11,
   }, function(items) {
     document.getElementById('countdown').value = items.countdown;
   });
