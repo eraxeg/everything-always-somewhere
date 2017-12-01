@@ -7,13 +7,14 @@ It is available as an open source Google Chrome extension.
 ## Installation
 
 1. Clone the repository or [download the zip](https://github.com/eraxeg/everything-always-somewhere/archive/master.zip)
-1. Go to `chrome://extensions` and click `Load unpacked extension...`. Select the downloaded folder.
+2. Go to `chrome://extensions` and click `Load unpacked extension...`. Select the downloaded folder.
 
 ## Features
 
 - Start and stop the timer (by clicking the icon)
 - Set the cycling interval (in the options)
-- Skip current website (right click on icon when timer is on)
+- Skip current website (right click on the icon when the timer is on)
+- Choose if the extension should go to a new page when the timer is turned on. This is on by default but can be turned off in the options.
 
 The extension by default excludes websites which require interaction. The possibility of human interaction is part of the artwork and automating it would risk taking away too much of the piece.
 

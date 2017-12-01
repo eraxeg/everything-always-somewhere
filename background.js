@@ -1,11 +1,26 @@
 var timerTab = 0;
 var status = 'off';
+var initialChange;
+var hello;
+
+function restoreOptions() {
+  chrome.storage.sync.get({
+    initialChange: true
+  }, function(items) {
+    initialChange = items.initialChange;
+  });
+}
+restoreOptions();
 
 function toggleTimer(tab) {
   if (tab.id === timerTab){
     stopTimer(tab.id);
   } else {
     startTimer(tab);
+    if (initialChange){
+      var script = 'changePage(randomWebsite());';
+      chrome.tabs.executeScript(timerTab, {code: script});
+    }
   }
 }
 
@@ -35,9 +50,9 @@ function stopTimer(tabId, changeInfo, tab) {
 function injectScript(tabId) {
   chrome.tabs.executeScript(tabId, { file: 'inject.min.js'}, function () {
     if(chrome.runtime.lastError) {
-      alert("Whoops... " + chrome.runtime.lastError.message);
-      status = 'off'
-      chrome.browserAction.setIcon({ path: 'icons/rose-' + status + '.png' });
+      alert("Whoops... " + chrome.runtime.lastError.message +
+        "\n\nThe timer needs a tab with a url starting with http:// to work.");
+      stopTimer(tabId);
     } else {
       // move on
     }
