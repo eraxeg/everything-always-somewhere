@@ -23,6 +23,11 @@ The websites are stored as a JSON dictionary in `inject.js`. They were fetched o
 
 ## TODO
 
+- Make it click, drag and pan!
+- Go to next/previous website when timer is off
+- Prettier settings
+- Complete categorization of websites
+- Merge mobile websites with full website list
 - Show/hide specific websites
 - Chronological cycling mode
 - Check newrafael.com for new websites automatically
