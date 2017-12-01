@@ -6,7 +6,7 @@ It is available as an open source Google Chrome extension.
 
 ## Installation
 
-1. Clone the repository
+1. Clone the repository or [https://github.com/eraxeg/everything-always-somewhere/archive/master.zip](download the zip)
 1. Go to `chrome://extensions` and click `Load unpacked extension…`. Select the everything-always-somewhere folder.
 
 ## Features
