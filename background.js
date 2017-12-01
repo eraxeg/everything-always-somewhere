@@ -33,7 +33,15 @@ function stopTimer(tabId, changeInfo, tab) {
 }
 
 function injectScript(tabId) {
-  chrome.tabs.executeScript(tabId, { file: 'inject.min.js'});
+  chrome.tabs.executeScript(tabId, { file: 'inject.min.js'}, function () {
+    if(chrome.runtime.lastError) {
+      alert("Whoops... " + chrome.runtime.lastError.message);
+      status = 'off'
+      chrome.browserAction.setIcon({ path: 'icons/rose-' + status + '.png' });
+    } else {
+      // move on
+    }
+});
 }
 
 function setStatus(tabId, statusArg){
