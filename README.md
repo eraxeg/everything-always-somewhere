@@ -1,6 +1,6 @@
 # everything always somewhere ![rose](icons/rose48.png)
 
-Have you also felt confused by the crowded choice when choosing which of Rafael Rozendaals website to view? [Experts](http://goodpointpodcast.com/) say that consumers get paralysed when presented with more than four choices. So how on earth will you be able to choose between more than a hundred website artworks? Sometimes you just want a curator to choose which art you should consume. Maybe this is the reason museums are so appealing?
+Have you felt confused by the amount of choices you have when going to Rafaël Rozendaals artwork-website list? [Experts](http://goodpointpodcast.com/) say that consumers get paralysed when presented with more than four choices. So how will you be able to choose between more than a hundred artwork-websites? Sometimes you just want a curator to choose which art you should consume. Maybe this is the reason museums are so appealing?
 
 _everything always somewhere_ is the institution you have been waiting for. A browser extension that automatically cycles between websites created by [Rafaël Rozendaal](http://www.newrafael.com). 
 
@@ -26,7 +26,7 @@ The websites are stored as a JSON dictionary in `inject.js`. They were fetched o
 
 ## How about interaction?
 
-The institution does not want you to do labour for the art to come alive.  By default, _everything always somewhere_ gives you the right to remain a passive consumer. Work is in progress that will enable you to watch automated interaction. Independent net art experts will judge where this is appropriate without destroying the essence of the website artwork. 
+The institution does not want you to do labour for the art to come alive.  By default, _everything always somewhere_ gives you the right to remain a passive consumer. Soon you will be able to watch automated interaction. Independent net art experts will judge where this is appropriate without destroying the essence of the artwork-website. 
 
 ## TODO
 
