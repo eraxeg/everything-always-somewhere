@@ -48,7 +48,7 @@ function stopTimer(tabId, changeInfo, tab) {
 }
 
 function injectScript(tabId) {
-  chrome.tabs.executeScript(tabId, { file: 'inject.min.js'}, function () {
+  chrome.tabs.executeScript(tabId, { file: 'inject.js'}, function () {
     if(chrome.runtime.lastError) {
       alert("Whoops... " + chrome.runtime.lastError.message +
         "\n\nThe timer needs a tab with a url starting with http:// to work.");
