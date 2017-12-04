@@ -18,7 +18,7 @@ function toggleTimer(tab) {
   } else {
     startTimer(tab);
     if (initialChange){
-      var script = 'changePage(randomWebsite());';
+      var script = 'changePage(getWebsite());';
       chrome.tabs.executeScript(timerTab, {code: script});
     }
   }
