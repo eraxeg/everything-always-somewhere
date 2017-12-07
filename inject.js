@@ -1,7 +1,17 @@
-var countdown, extension_status, timerFunction, i, epilepticValue;
+var countdown, extension_status, timerFunction, i, epilepticValue, currentId;
+
+var sequential = true;
 
 restoreOptions();
 startTimer();
+
+// https://stackoverflow.com/questions/10052259/accessing-global-object-from-content-script-in-chrome-extension
+// Bind an event listener to the page
+// Injected script: Create and fire this specific event example 1.
+// → The event listener from 1) gets triggered.
+// In this event listener, use chrome.runtime.sendMessage to request the functionality from the background example 2.
+// In the background page, handle this request using chrome.runtime.onMessage.
+// Optionally, inject code in the original tab using chrome.tabs.executeScript(tab.id, func).
 
 function restoreOptions() {
   chrome.storage.sync.get({
@@ -21,7 +31,18 @@ function stopTimer() {
 function startTimer() {
   i = 0;
   timerFunction = setInterval(eachSecond, 1000);
+  chrome.runtime.sendMessage({"getUrl": true});
 }
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if(request.tabUrl) {
+      console.log("got tabUrl: " + request.tabUrl);
+      currentId = getWebsiteByUrl(request.tabUrl).id;
+      console.log("set currentId to: " + getWebsiteByUrl(request.tabUrl).id);
+    }
+  }
+);
 
 function eachSecond() {
   i++;
@@ -35,22 +56,65 @@ function eachSecond() {
 
 function changePage(page) {
   chrome.runtime.sendMessage(page, function() {
-    stopTimer();
-    startTimer();
+    // stopTimer();
+    // startTimer();
   });
 }
 
 function getWebsite(){
   var returnedPage, randomIndex;
-  do {
-    randomIndex = Math.floor(Math.random() * m_websites.websites.length);
-    returnedPage = m_websites.websites[randomIndex];
-  } while (
-    returnedPage.show === false ||
-    returnedPage.flash === true ||
-    (epilepticValue === true && returnedPage.epileptic)
-  );
+  if (currentId === undefined || sequential === false) {
+    do {
+      returnedPage = getRandomPage();
+    } while (checkAgain(returnedPage));
+  } else {
+    do {
+      returnedPage = getNextPage();
+    } while (checkAgain(returnedPage));
+  }
   return returnedPage;
+}
+
+function checkAgain(returnedPage){
+  var notOk = returnedPage.show === false ||
+  returnedPage.flash === true ||
+  (epilepticValue === true && returnedPage.epileptic);
+  return notOk;
+}
+
+function getRandomPage() {
+  randomIndex = Math.floor(Math.random() * m_websites.websites.length);
+  var randomPage = m_websites.websites[randomIndex];
+  return randomPage;
+}
+
+function getNextPage() {
+  console.log("next page, decrementing currentId: " + currentId);
+  var nextId = --currentId;
+  if (nextId === 0){
+    nextId = m_websites.websites[0].id;
+  }
+  console.log("nextId: " + nextId);
+  var nextPage = getWebsiteById(nextId);
+  return nextPage;
+}
+
+function getWebsiteById(id){
+  var website = m_websites.websites.filter(item => item.id === id);
+  if (website.length === 0) {
+    console.log("no website with id: " + id);
+    website = m_websites.websites;
+  }
+  return website[0];
+}
+
+function getWebsiteByUrl(url){
+  var website = m_websites.websites.filter(item => item.url === url);
+  if (website.length === 0) {
+    console.log("no website with url: " + url);
+    website = m_websites.websites;
+  }
+  return website[0];
 }
 
 //------------------------------------------------------------------------------

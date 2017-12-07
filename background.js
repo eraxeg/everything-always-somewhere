@@ -1,7 +1,7 @@
 var timerTab = 0;
 var status = 'off';
 var initialChange;
-var hello;
+var currentId;
 
 function restoreOptions() {
   chrome.storage.sync.get({
@@ -75,6 +75,13 @@ chrome.runtime.onMessage.addListener(
       sendResponse({success: "changed url to " + request.url});
       setStatus(timerTab, 'on');
       injectScript(timerTab);
+    } else if (request.getUrl){
+      // TODO Get url from timerTab instead.
+      chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+        var url = tabs[0].url;
+        console.log("got getUrl, sending " + url);
+        chrome.tabs.sendMessage(timerTab, {success: true, tabUrl: url});
+      });
     } else {
       chrome.browserAction.setBadgeText({text: request.toString()});
       sendResponse({success: "changed badge to " + request});
