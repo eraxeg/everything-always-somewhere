@@ -1,6 +1,4 @@
-var countdown, extension_status, timerFunction, i, epilepticValue, currentId;
-
-var sequential = true;
+var countdown, extension_status, timerFunction, i, epilepticValue, currentId, sequential;
 
 restoreOptions();
 startTimer();
@@ -8,10 +6,12 @@ startTimer();
 function restoreOptions() {
   chrome.storage.sync.get({
     countdown: 16,
-    epilepticEnable: true
+    epilepticEnable: true,
+    sequentialEnable: false
   }, function(items) {
     countdown = items.countdown;
     epilepticValue = items.epilepticEnable;
+    sequential = items.sequentialEnable;
   });
 }
 
@@ -295,6 +295,7 @@ var m_websites = {
       "url": "http://www.yesnoif.com/",
       "name": "yes no if .com",
       "mobile": true,
+      "show": false,
       "clickable": true,
       "year": 2014,
       "id": 85
@@ -547,6 +548,7 @@ var m_websites = {
       "url": "http://www.violentpower.com/",
       "name": "violent power.com",
       "mobile": true,
+      "show": false,
       "clickable": true,
       "year": 2012,
       "id": 53
@@ -569,6 +571,7 @@ var m_websites = {
       "url": "http://www.intotime.us/",
       "name": "into time .us",
       "mobile": true,
+      "show": false,
       "clickable": true,
       "year": 2012,
       "id": 50
@@ -592,6 +595,7 @@ var m_websites = {
       "url": "http://www.intotime.org/",
       "name": "into time .org",
       "mobile": true,
+      "show": false,
       "clickable": true,
       "year": 2011,
       "id": 47
@@ -696,6 +700,7 @@ var m_websites = {
       "url": "http://www.intotime.com/",
       "name": "into time .com",
       "mobile": true,
+      "show": false,
       "clickable": true,
       "year": 2010,
       "id": 33

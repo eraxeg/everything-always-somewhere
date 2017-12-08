@@ -31,13 +31,12 @@ The institution does not want you to do labour for the art to come alive. By def
 
 ## TODO
 
+- setting which enables showing the websites requiring interaction `(mobile && !show)`
 - Jeremy mode - Every other site will be an advertisement
 - Make it click, drag and pan!
 - Go to next/previous website when timer is off
 - Fix the bug that you have to reload the extension to apply the "change on activation" setting
 - Prettier settings
-- Complete categorization of websites
 - Show/hide specific websites
-- Chronological cycling mode
 - Check newrafael.com for new websites automatically
 - Separate website list from code

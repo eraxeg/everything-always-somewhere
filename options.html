@@ -20,6 +20,14 @@
   </p>
   <p>
     <label>
+      <input type="radio" name="sequential" id="sequentialEnable"> Chronological order<br>
+    </label>
+    <label>
+      <input type="radio" name="sequential" id="sequentialDisable"> Random order<br>
+    </label>
+  </p>
+  <p>
+    <label>
       Countdown seconds
     </label>
   </p>
@@ -27,7 +35,8 @@
     <input type="number" id="countdown"></input>
   </p>
   <button id="save">Save</button>
-  <div id="status"></div>
+  <button id="restore">Restore default values</button>
+  <span id="status"></span>
   <script src="options.js"></script>
 </body>
 </html>

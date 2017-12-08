@@ -1,6 +1,6 @@
 {
     "name": "everything always somewhere",
-    "version": "0.3",
+    "version": "0.4",
     "manifest_version": 2,
     "description": "everything always somewhere is a browser extension that automatically cycles between websites created by Rafael Rozendaal",
     "author": "Erik Axel Eggeling, www.eraxeg.com",
