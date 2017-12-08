@@ -5,14 +5,6 @@ var sequential = true;
 restoreOptions();
 startTimer();
 
-// https://stackoverflow.com/questions/10052259/accessing-global-object-from-content-script-in-chrome-extension
-// Bind an event listener to the page
-// Injected script: Create and fire this specific event example 1.
-// → The event listener from 1) gets triggered.
-// In this event listener, use chrome.runtime.sendMessage to request the functionality from the background example 2.
-// In the background page, handle this request using chrome.runtime.onMessage.
-// Optionally, inject code in the original tab using chrome.tabs.executeScript(tab.id, func).
-
 function restoreOptions() {
   chrome.storage.sync.get({
     countdown: 16,
@@ -37,9 +29,9 @@ function startTimer() {
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if(request.tabUrl) {
-      console.log("got tabUrl: " + request.tabUrl);
+      // console.log("got tabUrl: " + request.tabUrl);
       currentId = getWebsiteByUrl(request.tabUrl).id;
-      console.log("set currentId to: " + getWebsiteByUrl(request.tabUrl).id);
+      // console.log("set currentId to: " + getWebsiteByUrl(request.tabUrl).id);
     }
   }
 );
@@ -55,14 +47,12 @@ function eachSecond() {
 }
 
 function changePage(page) {
-  chrome.runtime.sendMessage(page, function() {
-    // stopTimer();
-    // startTimer();
-  });
+  chrome.runtime.sendMessage(page);
 }
 
 function getWebsite(){
   var returnedPage, randomIndex;
+  // chrome.runtime.sendMessage({"getUrl": true});
   if (currentId === undefined || sequential === false) {
     do {
       returnedPage = getRandomPage();
@@ -89,20 +79,23 @@ function getRandomPage() {
 }
 
 function getNextPage() {
-  console.log("next page, decrementing currentId: " + currentId);
+  // decrementing currentId and assigning result to nextId
   var nextId = --currentId;
-  if (nextId === 0){
+  // if nextId is below zero, set nextId to the id of the first
+  // website in the array, which also should be the latest
+  if (nextId <= 0){
     nextId = m_websites.websites[0].id;
   }
-  console.log("nextId: " + nextId);
+  // get website by the id
   var nextPage = getWebsiteById(nextId);
   return nextPage;
 }
 
 function getWebsiteById(id){
   var website = m_websites.websites.filter(item => item.id === id);
+  // if none is found, return first website in array
   if (website.length === 0) {
-    console.log("no website with id: " + id);
+    // console.log("no website with id: " + id);
     website = m_websites.websites;
   }
   return website[0];
@@ -110,8 +103,9 @@ function getWebsiteById(id){
 
 function getWebsiteByUrl(url){
   var website = m_websites.websites.filter(item => item.url === url);
+  // if none is found, return first website in array
   if (website.length === 0) {
-    console.log("no website with url: " + url);
+    // console.log("no website with url: " + url);
     website = m_websites.websites;
   }
   return website[0];

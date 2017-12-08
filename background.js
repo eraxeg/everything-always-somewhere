@@ -1,25 +1,41 @@
-var timerTab = 0;
+var timerTab = 0; // keep track of the tab
 var status = 'off';
 var initialChange;
-var currentId;
 
+// gets value of initialChange from chrome storage
 function restoreOptions() {
   chrome.storage.sync.get({
-    initialChange: true
+    initialChange: true // set to true if there is no value in storage
   }, function(items) {
     initialChange = items.initialChange;
   });
 }
+
 restoreOptions();
 
+// the method which is called when clicking the extension icon
 function toggleTimer(tab) {
+  // if timerTab is not 0 then the timer is active
+  // change to if timerTab != 0?
   if (tab.id === timerTab){
     stopTimer(tab.id);
   } else {
     startTimer(tab);
+    // if initialChange is on, change the page
+    // immediately when timer is turned on
     if (initialChange){
-      var script = 'changePage(getWebsite());';
-      chrome.tabs.executeScript(timerTab, {code: script});
+      // get url
+      chrome.tabs.get(timerTab, function (tab) {
+        // callback: send message with current url
+        // console.log("sending current url: " + tab.url);
+        chrome.tabs.sendMessage(timerTab, {success: true, tabUrl: tab.url}, function(){
+          // the listener in the content script sets the currentId when getting
+          // the tabUrl. this enables the timer to change to the next website
+          // even when the website has been chosen manually (by writing the url)
+          var script = 'changePage(getWebsite());'; // currentId is used in getWebsite()
+          chrome.tabs.executeScript(timerTab, {code: script});
+        });
+      });
     }
   }
 }
@@ -27,15 +43,8 @@ function toggleTimer(tab) {
 function startTimer(tab){
   setStatus(tab.id, 'on');
   injectScript(tab.id);
-  chrome.contextMenus.update("skip", {"enabled": true})
+  chrome.contextMenus.update("skip", {"enabled": true}) // enables skipping
   timerTab = tab.id;
-}
-
-function updateTab(tabId, changeInfo, tab) {
-  if (changeInfo.status == "complete" && tabId == timerTab && status == 'on') {
-    setStatus(timerTab, status);
-    injectScript(timerTab);
-  }
 }
 
 function stopTimer(tabId, changeInfo, tab) {
@@ -47,14 +56,23 @@ function stopTimer(tabId, changeInfo, tab) {
   timerTab = 0;
 }
 
+// this runs onUpdated (Fired when a tab is updated.)
+function updateTab(tabId, changeInfo, tab) {
+  if (changeInfo === undefined){return;}
+  if (changeInfo.status == "complete" && tabId == timerTab && status == 'on') {
+    setStatus(timerTab, status);
+    injectScript(timerTab);
+  }
+}
+
 function injectScript(tabId) {
   chrome.tabs.executeScript(tabId, { file: 'inject.js'}, function () {
+    // See if there is an exception (usually caused
+    // by launching in a chrome:// url)
     if(chrome.runtime.lastError) {
-      alert("Whoops... " + chrome.runtime.lastError.message +
+      alert("Oops... " + chrome.runtime.lastError.message +
         "\n\nThe timer needs a tab with a url starting with http:// to work.");
       stopTimer(tabId);
-    } else {
-      // move on
     }
 });
 }
@@ -66,25 +84,23 @@ function setStatus(tabId, statusArg){
 }
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  function(message, sender, sendResponse) {
     if (timerTab === 0) {
       return;
-    } else if (request.url){
-      var script = 'window.location.replace("' + request.url + '");';
+    } else if (message.url){
+      // change window.location to the received url
+      var script = 'window.location.replace("' + message.url + '");';
       chrome.tabs.executeScript(timerTab, {code: script});
-      sendResponse({success: "changed url to " + request.url});
-      setStatus(timerTab, 'on');
-      injectScript(timerTab);
-    } else if (request.getUrl){
-      // TODO Get url from timerTab instead.
-      chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-        var url = tabs[0].url;
-        console.log("got getUrl, sending " + url);
-        chrome.tabs.sendMessage(timerTab, {success: true, tabUrl: url});
+      sendResponse({success: "changed url to " + message.url});
+      chrome.browserAction.setBadgeText({text: ""});
+      updateTab(timerTab);
+    } else if (message.getUrl){
+      chrome.tabs.get(timerTab, function (tab) {
+        chrome.tabs.sendMessage(timerTab, {success: true, tabUrl: tab.url});
       });
     } else {
-      chrome.browserAction.setBadgeText({text: request.toString()});
-      sendResponse({success: "changed badge to " + request});
+      chrome.browserAction.setBadgeText({text: message.toString()});
+      sendResponse({success: "changed badge to " + message});
     }
   }
 );
@@ -94,6 +110,7 @@ chrome.tabs.onUpdated.addListener(updateTab);
 chrome.tabs.onActivated.addListener(stopTimer);
 chrome.browserAction.setBadgeBackgroundColor({color: [51, 153, 51, 255]});
 
+// TODO add toggle between sequential and random here
 chrome.contextMenus.create({
   "id":"skip",
   "enabled":false,
@@ -103,6 +120,6 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
   if (info.menuItemId === "skip"){
-    chrome.tabs.executeScript(tab.id, { code: 'i = countdown-1'});
+    chrome.tabs.executeScript(tab.id, { code: 'i = countdown - 1'});
   }
 })
