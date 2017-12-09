@@ -1,4 +1,5 @@
 var countdown, extension_status, timerFunction, i, epilepticValue, currentId, sequential;
+var flashEnabled = false;
 
 restoreOptions();
 startTimer();
@@ -67,8 +68,8 @@ function getWebsite(){
 
 function checkAgain(returnedPage){
   var notOk = returnedPage.show === false ||
-  returnedPage.flash === true ||
-  (epilepticValue === true && returnedPage.epileptic);
+  (flashEnabled === false && returnedPage.flash === true) ||
+  (epilepticValue === false && returnedPage.epileptic);
   return notOk;
 }
 
@@ -563,6 +564,7 @@ var m_websites = {
     {
       "url": "http://www.mechanicalwater.com/",
       "name": "mechanical water .com",
+      "show": true,
       "flash": true,
       "year": 2012,
       "id": 51
@@ -587,6 +589,8 @@ var m_websites = {
     {
       "url": "http://www.likethisforever.com/",
       "name": "like this forever .com",
+      "show": true,
+      "clickable": true,
       "flash": true,
       "year": 2011,
       "id": 48
@@ -610,6 +614,8 @@ var m_websites = {
     {
       "url": "http://www.tossingturning.com/",
       "name": "tossing turning .com",
+      "show": false,
+      "moveable": true,
       "flash": true,
       "year": 2011,
       "id": 45
@@ -617,6 +623,8 @@ var m_websites = {
     {
       "url": "http://www.sadforjapan.com/",
       "name": "sad for japan.com",
+      "show": true,
+      "moveable": true,
       "flash": true,
       "year": 2011,
       "id": 44
@@ -624,6 +632,7 @@ var m_websites = {
     {
       "url": "http://www.lovegameset.com/",
       "name": "love game set .com",
+      "show": false,
       "flash": true,
       "year": 2011,
       "id": 43
@@ -631,6 +640,7 @@ var m_websites = {
     {
       "url": "http://www.goodbyefarewell.com/",
       "name": "good bye farewell .com",
+      "show": true,
       "flash": true,
       "year": 2011,
       "id": 42
@@ -638,6 +648,8 @@ var m_websites = {
     {
       "url": "http://www.burningmytime.com/",
       "name": "burning my time .com",
+      "show": false,
+      "clickable": true,
       "flash": true,
       "year": 2011,
       "id": 41
@@ -653,6 +665,8 @@ var m_websites = {
     {
       "url": "http://www.towardsandbeyond.com/",
       "name": "towards and beyond .com",
+      "show": false,
+      "clickable": true,
       "flash": true,
       "year": 2010,
       "id": 39
@@ -660,7 +674,8 @@ var m_websites = {
     {
       "url": "http://www.yesforsure.com/",
       "name": "yes for sure .com",
-      "clickable": false,
+      "show": false,
+      "clickable": true,
       "flash": true,
       "year": 2010,
       "id": 38
@@ -676,6 +691,7 @@ var m_websites = {
     {
       "url": "http://www.flaminglog.com/",
       "name": "flaming log .com",
+      "show": true,
       "flash": true,
       "year": 2010,
       "id": 36
@@ -822,6 +838,7 @@ var m_websites = {
     {
       "url": "http://www.biglongnow.com/",
       "name": "big long now .com",
+      "show": false,
       "flash": true,
       "year": 2007,
       "id": 16
@@ -829,6 +846,7 @@ var m_websites = {
     {
       "url": "http://www.vaiavanti.com/",
       "name": "vai avanti .com",
+      "show": true,
       "flash": true,
       "year": 2006,
       "id": 15
@@ -860,6 +878,7 @@ var m_websites = {
     {
       "url": "http://www.nosquito.biz/",
       "name": "nosquito .biz",
+      "show": false,
       "flash": true,
       "year": 2005,
       "id": 11
@@ -867,6 +886,7 @@ var m_websites = {
     {
       "url": "http://www.itwillneverbethesame.com/",
       "name": "it will never be the same .com",
+      "show": false,
       "flash": true,
       "year": 2004,
       "id": 10
@@ -874,6 +894,7 @@ var m_websites = {
     {
       "url": "http://www.theendofreason.com/",
       "name": "the end of reason .com",
+      "show": true,
       "flash": true,
       "year": 2004,
       "id": 9
@@ -881,6 +902,7 @@ var m_websites = {
     {
       "url": "http://www.fataltotheflesh.com/",
       "name": "fatal to the flesh .com",
+      "show": false,
       "flash": true,
       "year": 2004,
       "id": 8
@@ -888,6 +910,7 @@ var m_websites = {
     {
       "url": "http://www.onandoff.org/",
       "name": "on and off .org",
+      "show": false,
       "flash": true,
       "year": 2003,
       "id": 7
@@ -895,7 +918,7 @@ var m_websites = {
     {
       "url": "http://www.everythingyouseeisinthepast.com/",
       "name": "everything you see is in the past .com",
-      "flash": true,
+      "show": false,
       "year": 2003,
       "id": 6
     },
@@ -918,6 +941,7 @@ var m_websites = {
     {
       "url": "http://www.whywashesad.com/",
       "name": "why was he sad .com",
+      "show": false,
       "clickable": false,
       "flash": true,
       "year": 2002,
@@ -933,6 +957,7 @@ var m_websites = {
     {
       "url": "http://www.misternicehands.com/",
       "name": "mister nice hands .com",
+      "show": false,
       "flash": true,
       "year": 2001,
       "id": 1

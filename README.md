@@ -6,7 +6,7 @@ _everything always somewhere_ is the institution you have been waiting for. A br
 
 The name comes from Rozendaals website [everything always everywhere .com](http://www.everythingalwayseverywhere.com). The idea is that the extension enables you to see all (or most) websites by Rafaël Rozendaal (_everything_) sequentially on a single monitor (_always somewhere_).
 
-It is available for you for free. You can even look at—and learn from—the code, as it is open source. [Download it now!](https://github.com/eraxeg/everything-always-somewhere/archive/master.zip)
+It is available for you for free. You can even look at—and learn from—the code, as it is open source. Feel free to contribute, too!
 
 ## Installation
 
@@ -32,6 +32,8 @@ The institution does not want you to do labour for the art to come alive. By def
 ## TODO
 
 - setting which enables showing the websites requiring interaction `(mobile && !show)`
+- setting to keep playing in background
+  - icon status off + no badge text in tabs that are without active timers
 - Jeremy mode - Every other site will be an advertisement
 - Make it click, drag and pan!
 - Go to next/previous website when timer is off
