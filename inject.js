@@ -1,5 +1,4 @@
-var countdown, extension_status, timerFunction, i, epilepticValue, currentId, sequential;
-var flashEnabled = false;
+var countdown, extension_status, timerFunction, i, epilepticValue, currentId, sequential, flashEnabled;
 
 restoreOptions();
 startTimer();
@@ -8,11 +7,13 @@ function restoreOptions() {
   chrome.storage.sync.get({
     countdown: 16,
     epilepticEnable: true,
-    sequentialEnable: false
+    sequentialEnable: false,
+    flash: false
   }, function(items) {
     countdown = items.countdown;
     epilepticValue = items.epilepticEnable;
     sequential = items.sequentialEnable;
+    flashEnabled = items.flash;
   });
 }
 
@@ -242,6 +243,8 @@ var m_websites = {
     {
       "url": "http://www.floatbounce.com/",
       "name": "float bounce .com",
+      "show": false,
+      "clickable": true,
       "mobile": true,
       "year": 2016,
       "id": 92
@@ -724,6 +727,7 @@ var m_websites = {
     {
       "url": "http://www.deepblackhole.com/",
       "name": "deep black hole .com",
+      "show": false,
       "flash": true,
       "year": 2010,
       "id": 32
@@ -731,6 +735,7 @@ var m_websites = {
     {
       "url": "http://www.closedshut.com/",
       "name": "closed shut .com",
+      "show": false,
       "flash": true,
       "year": 2009,
       "id": 31
@@ -738,6 +743,8 @@ var m_websites = {
     {
       "url": "http://www.fromthedarkpast.com/",
       "name": "from the dark past .com",
+      "show": true,
+      "clickable": true,
       "flash": true,
       "year": 2009,
       "id": 30
@@ -774,6 +781,7 @@ var m_websites = {
     {
       "url": "http://www.aestheticecho.com/",
       "name": "aesthetic echo .com",
+      "show": true,
       "flash": true,
       "year": 2009,
       "id": 25
@@ -781,6 +789,8 @@ var m_websites = {
     {
       "url": "http://www.coldvoid.com/",
       "name": "cold void .com",
+      "show": true,
+      "draggable": true,
       "flash": true,
       "year": 2008,
       "id": 24
@@ -788,6 +798,8 @@ var m_websites = {
     {
       "url": "http://www.colorflip.com/",
       "name": "color flip .com",
+      "show": false,
+      "clickable": true,
       "flash": true,
       "year": 2008,
       "id": 23
@@ -795,6 +807,7 @@ var m_websites = {
     {
       "url": "http://www.leduchamp.com/",
       "name": "le duchamp .com",
+      "show": false,
       "flash": true,
       "year": 2008,
       "id": 22
@@ -809,6 +822,7 @@ var m_websites = {
     {
       "url": "http://www.jellotime.com/",
       "name": "jello time .com",
+      "show": false,
       "flash": true,
       "year": 2007,
       "id": 20
@@ -816,6 +830,8 @@ var m_websites = {
     {
       "url": "http://www.brokenself.com/",
       "name": "broken self .com",
+      "show": false,
+      "clickable": true,
       "flash": true,
       "year": 2007,
       "id": 19
@@ -831,6 +847,7 @@ var m_websites = {
     {
       "url": "http://www.futurephysics.com/",
       "name": "future physics .com",
+      "show": true,
       "flash": true,
       "year": 2007,
       "id": 17
@@ -934,6 +951,7 @@ var m_websites = {
     {
       "url": "http://www.iamveryverysorry.com/",
       "name": "i am very very sorry .com",
+      "show": false,
       "flash": true,
       "year": 2002,
       "id": 4
